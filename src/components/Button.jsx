@@ -1,12 +1,14 @@
 import React from "react";
+import Link from "next/link";
 
-const GradientButton = ({ children, className = "", ...props }) => {
+const GradientButton = ({ children, className = "", forward = "#", ...props }) => {
   return (
-    <button
+    <Link
+      href={forward}
       {...props}
       className={`
         relative inline-flex items-center justify-center
-        rounded-xl px-10 py-2 font-semibold text-md
+        rounded-full px-10 py-2 font-semibold text-md
         text-white
         bg-gradient-to-tl 
         from-slate-800 
@@ -17,11 +19,12 @@ const GradientButton = ({ children, className = "", ...props }) => {
         hover:scale-[1.03]
         active:scale-[0.97]
         focus:outline-none focus:ring-2 focus:ring-violet-500/50
+        
         ${className}
       `}
     >
       {children}
-    </button>
+    </Link>
   );
 };
 

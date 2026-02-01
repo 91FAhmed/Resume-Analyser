@@ -4,17 +4,9 @@ import { resumes } from "@/constants";
 export default function Home() {
   return (
     <>
-    <main
-      className="max-w-full max-h-full min-h-screen bg-bg-default text-fg-default"
-      style={{
-        backgroundImage: "url('/images/bg-main.svg')",
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}
-    >
-     
-         <Navbar />
-        
+
+     <main className="mt-12">
+         <Navbar children={"Upload Resume"} />
    <section className="max-w-4xl mx-auto container-fix px-4 sm:px-6 lg:px-8">
     <div className="py-12 sm:py-20 text-center">
       <h1 className="mask-[auto_100px] mask-l-from-75% mask-r-from-80%  font-semibold text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight max-w-4xl mx-auto">Track Your Resume Applications 💼 & Resume Ratings 🌟🌟🌟</h1>
@@ -31,7 +23,7 @@ export default function Home() {
     </section>
    )}
    </main>
-
+ 
    </>
   );
 }
