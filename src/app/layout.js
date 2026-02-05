@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
       }}
     > 
 
-      <Navbar children={"Upload Resume"} />
+      
      
         {children}
         </main>

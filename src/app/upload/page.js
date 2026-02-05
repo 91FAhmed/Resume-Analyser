@@ -1,6 +1,43 @@
-import React from 'react'
+"use client"
+
+import React, { useState } from 'react'
 
 const page = () => {
+  const [company, setCompany] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [resume, setResume] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setResult(null);
+    const formData = new FormData();
+    formData.append('company', company);
+    formData.append('title', title);
+    formData.append('description', description);
+    if (resume) formData.append('resume', resume, resume.name);
+
+    const res = await fetch('/api/analyze',{
+      method: 'POST',
+      body: formData
+    });
+    try {
+      const data = await res.json();
+      console.log(data);
+      setResult(data);
+    } catch (err) {
+      console.error(err);
+      setError('Failed to parse server response');
+    } finally {
+      setLoading(false);
+    }
+  }
+  
   return (
     <main className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-pink-50">
       <section className="max-w-3xl mx-auto px-6 py-12">
@@ -15,13 +52,15 @@ const page = () => {
           </p>
         </div>
 
-        <form className="mt-10 bg-white/80 backdrop-blur rounded-2xl shadow-lg p-6 sm:p-8">
+        <form onSubmit={handleSubmit} className="mt-10 bg-white/80 backdrop-blur rounded-2xl shadow-lg p-6 sm:p-8">
           <div className="grid gap-4">
             <label className="font-semibold">Company Name</label>
             <input
               type="text"
               placeholder="Company Name"
               className="border p-3 rounded-lg w-full"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
             />
 
             <label className="font-semibold">Job Title</label>
@@ -29,6 +68,8 @@ const page = () => {
               type="text"
               placeholder="Job Title"
               className="border p-3 rounded-lg w-full"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
 
             <label className="font-semibold">Job Description</label>
@@ -36,6 +77,8 @@ const page = () => {
               rows={4}
               placeholder="Job Description"
               className="border p-3 rounded-lg w-full resize-none"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
 
             <label className="font-semibold">Upload Resume</label>
@@ -45,7 +88,12 @@ const page = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 20h10" />
               </svg>
               <div className="text-sm font-medium">Click to upload or drag and drop PDF (max 20 MB)</div>
-              <input type="file" accept="application/pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+              <input 
+                type="file" 
+                accept="application/pdf" 
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                onChange={(e) => setResume(e.target.files[0])}
+              />
             </label>
 
             <button type="submit" className="mt-2 w-full inline-flex items-center justify-center rounded-full px-6 py-3 font-semibold text-white bg-gradient-to-r from-violet-500 to-indigo-500 shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-transform">
@@ -53,6 +101,31 @@ const page = () => {
             </button>
           </div>
         </form>
+        {loading && (
+          <div className="mt-6 text-center text-sm text-gray-500">Uploading & analyzing…</div>
+        )}
+
+        {error && (
+          <div className="mt-6 text-center text-sm text-red-600">{error}</div>
+        )}
+
+        {result && (
+          <div className="mt-8 bg-white/90 rounded-xl shadow-md p-6">
+            <h2 className="text-2xl font-bold">Analysis Results</h2>
+            <p className="text-sm text-gray-600 mt-2">File: {result.filename ?? '—' } ({result.size ?? 0} bytes)</p>
+            <div className="mt-4 flex items-center gap-4">
+              <div className="rounded-full bg-violet-100 text-violet-700 w-20 h-20 flex items-center justify-center text-2xl font-bold">{result.score ?? '—'}</div>
+              <div>
+                <h3 className="font-semibold">Improvement Tips</h3>
+                <ul className="list-disc list-inside text-sm mt-2">
+                  {(result.tips || []).map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     </main>
   )
