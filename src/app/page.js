@@ -4,9 +4,8 @@ import { resumes } from "@/constants";
 export default function Home() {
   return (
     <>
-
      <main className="mt-12">
-         <Navbar children={"Upload Resume"} />
+         <Navbar forward="/upload" children={"Upload"}/>
    <section className="max-w-4xl mx-auto container-fix px-4 sm:px-6 lg:px-8">
     <div className="py-12 sm:py-20 text-center">
       <h1 className="mask-[auto_100px] mask-l-from-75% mask-r-from-80%  font-semibold text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight max-w-4xl mx-auto">Track Your Resume Applications 💼 & Resume Ratings 🌟🌟🌟</h1>

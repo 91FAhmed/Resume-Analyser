@@ -79,6 +79,7 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  
 }
 
 /* Soft mask overlay utility (low intensity) */
