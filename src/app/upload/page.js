@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
+import { Suspense } from "react";
 
 export default function UploadPage() {
   const [company, setCompany] = useState("");
@@ -386,8 +387,9 @@ export default function UploadPage() {
                 }}
               >
                 {loading ? (
+              
                   <>
-                    {/* Inline MD3 spinner */}
+                    Inline MD3 spinner
                     <svg width="20" height="20" viewBox="0 0 20 20" style={{ flexShrink: 0 }}>
                       <circle cx="10" cy="10" r="7" stroke="rgba(255,255,255,0.3)" strokeWidth="2.5" fill="none" />
                       <circle
@@ -401,6 +403,7 @@ export default function UploadPage() {
                     </svg>
                     Analyzing…
                   </>
+                  
                 ) : (
                   <>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">

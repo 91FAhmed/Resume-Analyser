@@ -30,7 +30,7 @@ export async function POST(req) {
         resumeContent = await resumeFile.text();
       }
     } catch (err) {
-      console.error('Error parsing resume file:', err);
+      console.error('Error parsing resume filehttps://github.com/marketplace:', err);
       resumeContent = '';
     }
 
@@ -41,7 +41,8 @@ export async function POST(req) {
     baseURL: "https://models.github.ai/inference",
     apiKey: token
   });
-
+ 
+   
       const prompt = `You are a professional resume reviewer. Analyze the following resume and provide: 
          - Skills
          - Work experience
@@ -54,7 +55,6 @@ export async function POST(req) {
   const response = await client.chat.completions.create({
 
 
-
     messages: [
       { role:"system", content: "You are a professional resume reviewer." },
       { role:"user", content: prompt }
@@ -65,7 +65,7 @@ export async function POST(req) {
     top_p: 1
   });
 
-  console.log(response.choices[0].message.content);
+  console.log("Ai Response",response.choices[0].message.content);
 
     const analysisResult = {
       company,
@@ -73,7 +73,7 @@ export async function POST(req) {
       description,
       resumeContent,
       score: Math.floor(Math.random() * 100), // Mock score
-      feedback: response.choices[0].message.content // Use the AI response as feedback"
+      feedback: response.choices[0].message.content 
     };
 
     return new Response(JSON.stringify(analysisResult), { status: 200 });

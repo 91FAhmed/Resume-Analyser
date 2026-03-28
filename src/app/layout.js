@@ -1,6 +1,7 @@
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Script from "next/script";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -64,6 +65,14 @@ export default function RootLayout({ children }) {
       <body className={`${nunito.variable} antialiased`} style={{ margin: 0, background: "#FFFBFE" }}>
         {children}
       </body>
+      <Script
+        src="https://cdn.jsdelivr.net/npm/pdfjs-dist@5.5.207/wasm/openjpeg_nowasm_fallback.min.js"
+        strategy="afterInteractive"
+      />
+      <Script
+        src="https://cdn.jsdelivr.net/npm/pdfjs-dist@5.5.207/web/pdf_viewer.min.css"
+        strategy="afterInteractive"
+        />
     </html>
   );
 }
