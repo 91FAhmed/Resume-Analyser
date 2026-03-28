@@ -1,20 +1,13 @@
-
-import { Geist, Geist_Mono } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-
 
 export const metadata = {
   title: "Analysis — Resume Analyzer",
@@ -29,8 +22,8 @@ export const metadata = {
     "resume optimization",
     "job application",
   ],
-  authors: [{ name: " Ahmed" }],
-  themeColor: "#0f172a",
+  authors: [{ name: "Ahmed" }],
+  themeColor: "#FFFBFE",
   openGraph: {
     title: "Analysis — Resume Analyzer",
     description:
@@ -68,20 +61,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-            <main
-      className="max-w-full min-h-screen  bg-bg-default text-fg-default"
-      style={{
-        backgroundImage: "url('/images/bg-main.svg')",
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}
-    > 
-     
+      <body className={`${nunito.variable} antialiased`} style={{ margin: 0, background: "#FFFBFE" }}>
         {children}
-        </main>
       </body>
     </html>
   );
