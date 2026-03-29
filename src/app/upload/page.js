@@ -2,7 +2,8 @@
 
 import React, { useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
-import { Suspense } from "react";
+import { useRouter } from "next/navigation";
+
 
 export default function UploadPage() {
   const [company, setCompany] = useState("");
@@ -14,6 +15,9 @@ export default function UploadPage() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
+  const router = useRouter();
+
+  
 
   const handleFile = (file) => {
     if (file && file.type === "application/pdf") {
@@ -46,6 +50,20 @@ export default function UploadPage() {
       const res = await fetch("/api/analyze", { method: "POST", body: formData });
       const data = await res.json();
       setResult(data);
+      // persist analysis to sessionStorage so /result can read it
+      try {
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("analysis", JSON.stringify(data));
+          // navigate to result page with file id if available
+          if (data.fileId) {
+            router.push(`/result?fileId=${data.fileId}`);
+          } else {
+            router.push("/result");
+          }
+        }
+      } catch (err) {
+        console.error("Failed to store analysis or navigate:", err);
+      }
     } catch (err) {
       setError("Failed to parse server response.");
     } finally {
@@ -389,7 +407,7 @@ export default function UploadPage() {
                 {loading ? (
               
                   <>
-                    Inline MD3 spinner
+                   
                     <svg width="20" height="20" viewBox="0 0 20 20" style={{ flexShrink: 0 }}>
                       <circle cx="10" cy="10" r="7" stroke="rgba(255,255,255,0.3)" strokeWidth="2.5" fill="none" />
                       <circle
